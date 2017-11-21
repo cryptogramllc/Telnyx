@@ -20,24 +20,30 @@
 
 
 import React from "react";
+import { Link } from "react-router";
 
 export class Blog extends React.Component {
   constructor() {
   	 super();
-     this.state={items:[]};
+     this.state={items:[], post: null};
   }
   componentDidMount(){
   	fetch(`http://localhost:9001/posts`)
  	.then(result => result.json())
     .then(data => {
-       console.table(data);
-       let items = data.map((post) => {
+       var sorted = data.sort(function(a ,b){
+         return new Date(b.publish_date) - new Date(a.publish_date);
+       })
+       console.table(sorted);
+
+     //   console.table(data);
+       let items = data.map((sorted) => {
 	        return(
-	            <div key={post.id} id={post.slug}>
-	               <span className="title">{post.title}</span>
-	               <span className="author">{post.author}</span>
-	               <span className="date">{post.publish_date}</span>
-	                <span className="description">{post.description}</span>
+	            <div key={sorted.id} id={sorted.slug}>
+	               <span className="title"><Link to={ 'post/' + sorted.id}>{sorted.title}</Link></span>
+	               <span className="author">{sorted.author}</span>
+	               <span className="date">{sorted.publish_date}</span>
+	                <span className="description">{sorted.description}</span>
 	            </div>
 	        )
         })
@@ -49,19 +55,6 @@ export class Blog extends React.Component {
        console.log(e);
        return e;
     });	
- 
- 	// .then(data => {
-  //   	let items = data.results.map((post) => {
-	 //        return(
-	 //            <div post_id={post.id}>
-	 //               <span className="title">{post.title}</span>
-	 //            </div>
-	 //        )
-  //       })
-
-	 //    this.setState({items: items})
-	 //    console.log("state", this.state.items)
-  //   });
 
   }
   render() {

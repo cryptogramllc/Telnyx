@@ -7,3 +7,40 @@
 
 // Manifest
 @import "scss/base";
+
+
+
+.table{
+	  display: block;
+	  width: 320px;
+	  margin: auto;
+
+	  .table-inner{
+	     & > div{
+	     	float: left;
+	     	margin-bottom: 30px;
+	     	& > span{
+	     		display: block;
+	     		margin:auto;
+	     	}
+	     	.title{
+	     		font-size: 24px; 
+	     		font-weight: bold;
+	     	}
+	     	.author{
+	     		float:left;
+	     		font-weight: bold;
+	     		font-style:italic;
+	     	}
+	     	.date{
+	     		float:right;
+
+	     	}
+	     	.description{
+	     		float:left;
+
+	     	}
+	     }
+	  }
+
+}
