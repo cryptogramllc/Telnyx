@@ -6,8 +6,10 @@
 
 import React from "react";
 import ReactTestUtils from "react-addons-test-utils";
-
 import App from "./app/App";
+require('es6-promise').polyfill();
+
+
 
 describe("App test suite", function() {
   let component;
@@ -20,3 +22,4 @@ describe("App test suite", function() {
     expect(true).toBe(true);
   });
 });
+
