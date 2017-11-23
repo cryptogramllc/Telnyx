@@ -19,6 +19,6 @@ xdescribe("Home", function() {
   });
 
   it("contains spec that returns true", function() {
-    expect(true).toBe(true);
+    expect(true).toBe(false);
   });
 });

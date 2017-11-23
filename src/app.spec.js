@@ -7,6 +7,9 @@
 import React from "react";
 import ReactTestUtils from "react-addons-test-utils";
 import App from "./app/App";
+import fetch from 'isomorphic-fetch';
+
+
 require('es6-promise').polyfill();
 
 
@@ -23,3 +26,16 @@ describe("App test suite", function() {
   });
 });
 
+
+describe('API', function() {
+    it("should return api", function(){
+    	fetch(`http://localhost:9001/posts`)
+        .then(response => response.json())
+        .then(data => {
+        	console.log(data);
+           expect(data.id).toBe(1);     
+        });
+
+
+    })
+});

@@ -9,14 +9,18 @@ import ReactTestUtils from "react-addons-test-utils";
 
 import { Blog } from "./Blog";
 
-xdescribe("Blog", function() {
-  let component;
-
+describe("Blog", function() {
+  let component, renderer;
   beforeEach(function() {
-    const renderer = ReactTestUtils.createRenderer();
+    renderer = ReactTestUtils.createRenderer();
     renderer.render(<Blog />);
     component = renderer.getRenderOutput();
   });
+  it('should contain all elements from the json object', function(){
+      // var blog = renderer.render(<Blog />);
+      expect(component).contains("div.bananana");
+  
+  })
 
   it("contains spec that returns true", function() {
     expect(true).toBe(true);
@@ -26,10 +30,5 @@ xdescribe("Blog", function() {
 
 
 
-describe('Blog API', function() {
-    it("should return api", function(){
-    	fetch(`http://localhost:9001/posts`)
-        .then(response => response.json())
-        .then(data => process.stdout.write(data))
-    })
-});
+
+
