@@ -7,9 +7,13 @@
 
 // Manifest
 @import "scss/base";
-
-
-
+textarea{
+	-webkit-appearance: none;
+	border: none;
+	width: 100%;
+	background: #e1e1e1;
+	padding: 10px 30px;
+}
 .table{
 	  display: block;
 	  width: 320px;
@@ -24,7 +28,7 @@
 	     		margin:auto;
 	     	}
 	     	.title{
-	     		font-size: 24px; 
+	     		font-size: 24px;
 	     		font-weight: bold;
 	     	}
 	     	.author{

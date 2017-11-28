@@ -8,7 +8,7 @@ export class Post extends React.Component {
       currentInput: null,
      	comments: [],
      };
-     this.addComment = this.addComment.bind(this);
+     this.formSubmit = this.formSubmit.bind(this);
      this.inputChange = this.inputChange.bind(this);
   }
 
@@ -35,7 +35,7 @@ export class Post extends React.Component {
         	            <div className="row" key={sorted.id} id={sorted.postId}>
                          <span className="date col">{sorted.date}</span>
         	               <span className="author col">{sorted.user}</span>
-        	               <span className="description col-9">{sorted.content}</span>
+        	               <span className="description col-9">"{sorted.content}"</span>
         	            </div>
         	        )
                 })
@@ -47,29 +47,30 @@ export class Post extends React.Component {
      // console.log(e.target.value, this.state.currentInput);
 
    }
+   formSubmit(e){
+     e.preventDefault();
+     this.refs.commentBox.value="";
+     var today = new Date();
+     var dd = today.getDate();
+     var mm = today.getMonth()+1; //January is 0!
+     var yyyy = today.getFullYear();
 
-   addComment(){
-     // console.log('this state comment' , this.state.currentInput);
-      var today = new Date();
-      var dd = today.getDate();
-      var mm = today.getMonth()+1; //January is 0!
-      var yyyy = today.getFullYear();
+     if(dd<10) { dd = '0'+dd}
+     if(mm<10) {mm = '0'+mm}
+     today = yyyy + '-' + mm + '-' + dd;
 
-      if(dd<10) { dd = '0'+dd}
-      if(mm<10) {mm = '0'+mm}
-      today = yyyy + '-' + mm + '-' + dd;
-
-      var newComment =
-            <div className="row" key={ new Date() }>
-               <span className="date col">{today}</span>
-               <span className="author col">User 1</span>
-               <span className="description col-9">{this.state.currentInput}</span>
-            </div>;
-      var currentComments = this.state.comments;
-      currentComments.push(newComment);
-      this.setState({comments: currentComments})
-
+     var newComment =
+           <div className="row" key={ new Date() }>
+              <span className="date col">{today}</span>
+              <span className="author col">User 1</span>
+              <span className="description col-9">"{this.state.currentInput}"</span>
+           </div>;
+     var currentComments = this.state.comments;
+     currentComments.push(newComment);
+     this.setState({comments: currentComments})
    }
+
+
 
   render(){
   	var body;
@@ -84,7 +85,7 @@ export class Post extends React.Component {
             	this.state && this.state.post && __html &&
             	 <div key={this.state.post.id} id={this.state.post.slug}>
    				       <h1 className="display-3"> {this.state.post.title}</h1>
-	               <span className="author blockquote-footer">{this.state.post.author} : {this.state.post.publish_date}</span>
+	               <span className="author small">{this.state.post.author} <br /> <i className="blockquote-footer"> {this.state.post.publish_date} </i></span>
                  <span className="content lead container" dangerouslySetInnerHTML={{ __html }} />
 
                </div>
@@ -95,8 +96,10 @@ export class Post extends React.Component {
                </div>
             </div>
             <div className="addComment">
-              <input name="addComment" onKeyUp={this.inputChange} type="text" />
-              <button name="submit" type="submit" onMouseUp={this.addComment}> Post </button>
+                <form onSubmit={this.formSubmit}>
+                  <textarea name="addComment" ref="commentBox" className="lead" onKeyUp={this.inputChange} ></textarea>
+                  <button name="submit" type="submit"> Post </button>
+                </form>
             </div>
         </div>
     )
