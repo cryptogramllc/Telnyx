@@ -32,10 +32,10 @@ export class Post extends React.Component {
                 console.log(commentsArray);
                 let comments = commentsArray.map((sorted) => {
         	        return(
-        	            <div key={sorted.id} id={sorted.postId}>
-        	               <span className="author">{sorted.user}</span>
-        	               <span className="date">{sorted.date}</span>
-        	               <span className="description">{sorted.content}</span>
+        	            <div className="row" key={sorted.id} id={sorted.postId}>
+                         <span className="date col">{sorted.date}</span>
+        	               <span className="author col">{sorted.user}</span>
+        	               <span className="description col-9">{sorted.content}</span>
         	            </div>
         	        )
                 })
@@ -50,30 +50,24 @@ export class Post extends React.Component {
 
    addComment(){
      // console.log('this state comment' , this.state.currentInput);
-    var today = new Date();
-    var dd = today.getDate();
-    var mm = today.getMonth()+1; //January is 0!
-    var yyyy = today.getFullYear();
+      var today = new Date();
+      var dd = today.getDate();
+      var mm = today.getMonth()+1; //January is 0!
+      var yyyy = today.getFullYear();
 
-    if(dd<10) {
-    dd = '0'+dd
-    }
+      if(dd<10) { dd = '0'+dd}
+      if(mm<10) {mm = '0'+mm}
+      today = yyyy + '-' + mm + '-' + dd;
 
-    if(mm<10) {
-    mm = '0'+mm
-    }
-
-    today = yyyy + '-' + mm + '-' + dd;
-
-     var newComment =
-          <div id="test">
-             <span className="author">User 1</span>
-             <span className="date">{today}</span>
-             <span className="description">{this.state.currentInput}</span>
-          </div>;
-     var currentComments = this.state.comments;
-     currentComments.push(newComment);
-     this.setState({comments: currentComments})
+      var newComment =
+            <div className="row" key={ new Date() }>
+               <span className="date col">{today}</span>
+               <span className="author col">User 1</span>
+               <span className="description col-9">{this.state.currentInput}</span>
+            </div>;
+      var currentComments = this.state.comments;
+      currentComments.push(newComment);
+      this.setState({comments: currentComments})
 
    }
 
@@ -95,8 +89,10 @@ export class Post extends React.Component {
 	               <span className="content" dangerouslySetInnerHTML={{ __html }} />
 	             </div>
             }
-            <div className="comments">
-            	{ this.state.comments}
+            <div className="comments alert alert-dark">
+               <div className="container">
+             	     { this.state.comments}
+               </div>
             </div>
             <div className="addComment">
               <input name="addComment" onKeyUp={this.inputChange} type="text" />
