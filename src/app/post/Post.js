@@ -83,14 +83,14 @@ export class Post extends React.Component {
             {
             	this.state && this.state.post && __html &&
             	 <div key={this.state.post.id} id={this.state.post.slug}>
-   				       <h1> {this.state.post.title}</h1>
-	               <span className="author">{this.state.post.author}</span>
-	               <span className="date">{this.state.post.publish_date}</span>
-	               <span className="content" dangerouslySetInnerHTML={{ __html }} />
-	             </div>
+   				       <h1 className="display-3"> {this.state.post.title}</h1>
+	               <span className="author blockquote-footer">{this.state.post.author} : {this.state.post.publish_date}</span>
+                 <span className="content lead container" dangerouslySetInnerHTML={{ __html }} />
+
+               </div>
             }
             <div className="comments alert alert-dark">
-               <div className="container">
+               <div className="container small">
              	     { this.state.comments}
                </div>
             </div>
