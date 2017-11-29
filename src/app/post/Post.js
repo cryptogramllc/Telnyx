@@ -1,5 +1,6 @@
 import React from "react";
 
+
 export class Post extends React.Component {
   constructor(props) {
   	 super(props);
@@ -58,16 +59,18 @@ export class Post extends React.Component {
      if(dd<10) { dd = '0'+dd}
      if(mm<10) {mm = '0'+mm}
      today = yyyy + '-' + mm + '-' + dd;
-
+     var date = new Date();
      var newComment =
-           <div className="row" key={ new Date() }>
+           <div className="row" key={ key }>
               <span className="date col">{today}</span>
               <span className="author col">User 1</span>
               <span className="description col-9">"{this.state.currentInput}"</span>
            </div>;
+
      var currentComments = this.state.comments;
      currentComments.push(newComment);
      this.setState({comments: currentComments})
+
    }
 
 
