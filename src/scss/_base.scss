@@ -40,3 +40,51 @@ body {
 	border-right-color:#ddd;
 	border-width:8px;
 }
+
+
+textarea{
+	-webkit-appearance: none;
+	border: none;
+	width: 100%;
+	background: #e1e1e1;
+	padding: 10px 30px;
+}
+.table{
+	  display: block;
+	  width: 320px;
+	  margin: auto;
+
+	  .table-inner{
+	     & > div{
+	     	float: left;
+	     	margin-bottom: 30px;
+	     	& > span{
+	     		display: block;
+	     		margin:auto;
+	     	}
+	     	.title{
+	     		font-size: 24px;
+	     		font-weight: bold;
+	     	}
+	     	.author{
+	     		float:left;
+	     		font-weight: bold;
+	     		font-style:italic;
+	     	}
+	     	.date{
+	     		float:right;
+
+	     	}
+	     	.description{
+	     		float:left;
+
+	     	}
+	     }
+	  }
+
+}
+
+.comments {
+  margin: 0 auto;
+  max-width: 500px;
+}

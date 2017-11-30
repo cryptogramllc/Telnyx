@@ -74,12 +74,30 @@ export class Post extends React.Component {
                    var childComment = this.state.childComment.map((child)=> {
                       if (child.parent_id == parent.id){
                         return (
-                          <div className="" id={ "comment-" + child.parent_id } key={ child.id }>
-                            <h6 className="author blockquote"> {child.user} </h6>
-                            <div className="row">
-                              <div className="content small col-10"> "{child.content}" </div>
-                              <div className="content col"> {child.date} </div>
-                            </div>
+                          // <div className="" id={ "comment-" + child.parent_id } key={ child.id }>
+                          //   <h6 className="author blockquote"> {child.user} </h6>
+                          //   <div className="row">
+                          //     <div className="content small col-10"> "{child.content}" </div>
+                          //     <div className="content col"> {child.date} </div>
+                          //   </div>
+                          // </div>
+                          <div className="row" id={ "comment-" + child.parent_id } key={ child.id }>
+                             <div className="col-sm-2">
+                                <div className="thumbnail">
+                                   <img className="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png" />
+                                </div>
+
+                             </div>
+                             <div className="col-sm-10">
+                                <div className="panel panel-default">
+                                   <div className="panel-heading">
+                                      <strong>{child.user}</strong> <span className="text-muted">commented on {child.date}</span>
+                                   </div>
+                                   <div className="panel-body">
+                                      <div className="parent-comment"> "{child.content}" </div>
+                                   </div>
+                                </div>
+                             </div>
                           </div>
                         )
                       }
@@ -96,35 +114,21 @@ export class Post extends React.Component {
                       //         {childComment}
                       //     </div>
                       // </div>
-                      <div className="row">
-                         <div className="col-sm-1">
+                      <div className="row" id={ "comment-" + parent.id } key={ parent.id }>
+                         <div className="col-sm-2">
                             <div className="thumbnail">
                                <img className="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png" />
                             </div>
 
                          </div>
-                         <div className="col-sm-5">
+                         <div className="col-sm-10">
                             <div className="panel panel-default">
                                <div className="panel-heading">
-                                  <strong>myusername</strong> <span className="text-muted">commented 5 days ago</span>
+                                  <strong>{parent.user}</strong> <span className="text-muted">commented on {parent.date}</span>
                                </div>
                                <div className="panel-body">
-                                  Panel content
-                               </div>
-                            </div>
-                         </div>
-                         <div className="col-sm-1">
-                            <div className="thumbnail">
-                               <img className="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png"/>
-                            </div>
-                         </div>
-                         <div className="col-sm-5">
-                            <div className="panel panel-default">
-                               <div className="panel-heading">
-                                  <strong>myusername</strong> <span className="text-muted">commented 5 days ago</span>
-                               </div>
-                               <div className="panel-body">
-                                  Panel content
+                                  <div className="parent-comment"> "{parent.content}" </div>
+                                  <div className="child-comment">{ childComment }</div>
                                </div>
                             </div>
                          </div>
@@ -155,14 +159,24 @@ export class Post extends React.Component {
      var date = new Date();
      var key = date;
      var newComment =
-           <div className="alert alert-dark" key={ key }>
-             <h6 className="author blockquote">User 1</h6>
-             <div className="row">
-               <div className="description blockquote col-10">"{this.state.currentInput}"</div>
-               <div className="date col small">{today}</div>
-            </div>
-           </div>;
+           <div className="row" id={ "comment-" + key} key={ key }>
+              <div className="col-sm-2">
+                 <div className="thumbnail">
+                    <img className="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png" />
+                 </div>
 
+              </div>
+              <div className="col-sm-10">
+                 <div className="panel panel-default">
+                    <div className="panel-heading">
+                       <strong>User 1</strong> <span className="text-muted">commented on {today}</span>
+                    </div>
+                    <div className="panel-body">
+                      <div className="parent-comment"> "{this.state.currentInput}" </div>
+                    </div>
+                 </div>
+              </div>
+           </div>
      var currentComments = this.state.comments;
      currentComments.push(newComment);
      this.setState({comments: currentComments})
@@ -190,9 +204,7 @@ export class Post extends React.Component {
                </div>
             }
             <div className="comments">
-               <div className="container">
              	     {this.state.comments}
-               </div>
             </div>
             <div className="addComment">
                 <form onSubmit={this.formSubmit}>
