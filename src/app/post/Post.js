@@ -6,8 +6,10 @@ export class Post extends React.Component {
   	 super(props);
      this.state= {
      	post: null,
+      comments:[],
       currentInput: null,
-     	comments: [],
+     	parentComment: [],
+      childComment:[]
      };
      this.formSubmit = this.formSubmit.bind(this);
      this.inputChange = this.inputChange.bind(this);
@@ -26,20 +28,77 @@ export class Post extends React.Component {
           fetch(`http://localhost:9001/comments`)
          	.then(result => result.json())
          	.then(data => {
-         		var commentsArray = data.filter(function(elem, i, array) {
-                    console.table(array)
-                    return elem.postId == tab;
-                 });
-                console.log(commentsArray);
-                let comments = commentsArray.map((sorted) => {
-        	        return(
-        	            <div className="row" key={sorted.id} id={sorted.postId}>
-                         <span className="date col">{sorted.date}</span>
-        	               <span className="author col">{sorted.user}</span>
-        	               <span className="description col-9">"{sorted.content}"</span>
-        	            </div>
-        	        )
-                })
+       		     var commentsArray = data.filter(function(elem, i, array) {
+                  // console.table(array)
+                  return elem.postId == tab;
+               });
+                // let childComment = commentsArray.map((sorted) => {
+                //     if(sorted.parent_id != null){
+                //          return (
+                //            <div className="row" key={sorted.id} id={sorted.postId}>
+                //               <span className="date col">{sorted.date}</span>
+                //               <span className="author col">{sorted.user}</span>
+                //               <span className="description col-9">
+                //               "{sorted.content}"
+                //               </span>
+                //            </div>
+                //          )
+                //       }
+                // });
+                // let comments = commentsArray.map((sorted) => {
+                //     if (sorted.parent_id == null){
+            	  //       return(
+            	  //           <div className="row" key={sorted.id} id={sorted.postId}>
+                //              <span className="date col">{sorted.date}</span>
+            	  //              <span className="author col">{sorted.user}</span>
+            	  //              <span className="description col-9">
+                //                 "{sorted.content}"
+                //                  <div className = "childComment">
+                //                       {childComment}
+                //                  </div>
+                //              </span>
+            	  //           </div>
+            	  //       )
+                //     }
+                // })
+
+                commentsArray.map((sorted) => {
+                     this.state.parentComment.push(sorted);
+
+                     if( sorted.parent_id != null){
+                        this.state.childComment.push(sorted);
+                     }
+                });
+
+                var comments = this.state.parentComment.map((parent) => {
+                   var childComment = this.state.childComment.map((child)=> {
+                      if (child.parent_id == parent.id){
+                        return (
+                          <div className="" id={ "comment-" + child.parent_id } key={ child.id }>
+                            <h6 className="author blockquote"> {child.user} </h6>
+                            <div className="row">
+                              <div className="content small col-10"> "{child.content}" </div>
+                              <div className="content col"> {child.date} </div>
+                            </div>
+                          </div>
+                        )
+                      }
+                   });
+
+                   return (
+                      <div className="alert alert-dark" id={ "comment-" + parent.id } key={ parent.id }>
+                          <h6 className="author blockquote"> {parent.user} </h6>
+                          <div className="row">
+                            <div className="description blockquote col-10"> "{parent.content}" </div>
+                            <div className="date col small">{parent.date}</div>
+                          </div>
+                          <div className="childComments container small">
+                              {childComment}
+                          </div>
+                      </div>
+                   )
+                });
+                console.log(comments);
                 this.setState({comments: comments})
          	});
    }
@@ -60,11 +119,14 @@ export class Post extends React.Component {
      if(mm<10) {mm = '0'+mm}
      today = yyyy + '-' + mm + '-' + dd;
      var date = new Date();
+     var key = date;
      var newComment =
-           <div className="row" key={ key }>
-              <span className="date col">{today}</span>
-              <span className="author col">User 1</span>
-              <span className="description col-9">"{this.state.currentInput}"</span>
+           <div className="alert alert-dark" key={ key }>
+             <h6 className="author blockquote">User 1</h6>
+             <div className="row">
+               <div className="description blockquote col-10">"{this.state.currentInput}"</div>
+               <div className="date col small">{today}</div>
+            </div>
            </div>;
 
      var currentComments = this.state.comments;
@@ -93,9 +155,9 @@ export class Post extends React.Component {
 
                </div>
             }
-            <div className="comments alert alert-dark">
-               <div className="container small">
-             	     { this.state.comments}
+            <div className="comments">
+               <div className="container">
+             	     {this.state.comments}
                </div>
             </div>
             <div className="addComment">
